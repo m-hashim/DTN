@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Node : MonoBehaviour
 {
@@ -56,10 +57,10 @@ public class Node : MonoBehaviour
     {
         if (other.GetComponent<Node>() != null)
         {
-            HitCount[int.Parse(other.GetComponent<Node>().Name)]++;
-            print($"{Name} is interacted with {int.Parse(other.GetComponent<Node>().Name)} : {HitCount[int.Parse(other.GetComponent<Node>().Name)]} times");
+            NodeGenerator.Instance.HitRegister(int.Parse(Name), int.Parse(other.GetComponent<Node>().Name));        
+     //       print($"{Name} is interacted with {int.Parse(other.GetComponent<Node>().Name)} : {HitCount[int.Parse(other.GetComponent<Node>().Name)]} times");
         }
     }
-
+    
     
 }
