@@ -24,6 +24,7 @@ public class Menu : MonoBehaviour
         for(int i = 0; i < NodeGenerator.Instance.GetComponentsInChildren<Node>().Length; i++){
             str += $"{i} : {NodeGenerator.Instance.MaximumLikelyhoodNode(int.Parse(NodeGenerator.Instance.transform.GetChild(i).gameObject.GetComponent<Node>().Name))}\n";
         }
+        NodeGenerator.Instance.GetClusters();
         print(str);
     }
 }

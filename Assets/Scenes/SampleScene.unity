@@ -446,7 +446,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodesQuantity: 50
-  Node: {fileID: 789375694631154905, guid: add508301220bce4d94f69c90fc2edd5, type: 3}
+  InstantiateNode: {fileID: 789375694631154905, guid: add508301220bce4d94f69c90fc2edd5,
+    type: 3}
+  Nodes: []
 --- !u!4 &693158869
 Transform:
   m_ObjectHideFlags: 0

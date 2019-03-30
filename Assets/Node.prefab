@@ -122,5 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestinationPosition: {x: 0, y: 0, z: 0}
-  MovingRange: 5
+  Cluster: {fileID: 0}
+  MovingRange: 15
   MovingSpeed: 2

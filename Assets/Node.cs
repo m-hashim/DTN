@@ -8,7 +8,7 @@ public class Node : MonoBehaviour
     public Vector3 DestinationPosition;
     public string Name { get; set; }
     int[] HitCount;
-
+    public ClusterOfNode Cluster;
     private float InstantiateRange = 45f;
     private Vector3 InstantiatePosition; 
     public float MovingRange = 15f;
