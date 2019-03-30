@@ -5,16 +5,27 @@ using UnityEngine;
 public class NodeGenerator : MonoBehaviour
 {
     public static NodeGenerator Instance { private set; get; }
-    public int NodesQuantity;
+    private int NodesQuantity;
+    private int MinimumClusterRequired;
+    private int MinimumCollisionStrength;
+    private int MaximumNodeInCluster;
     private int[,] HitCount;
+
     public GameObject InstantiateNode;
     public Node[] Nodes;
-    
-    // Start is called before the first frame update
 
+    // Start is called before the first frame update
+    private int ClustersCreatedCount;
+    private List<ClusterOfNode> ClustersCreated;
     void Start()
     {
+        NodesQuantity = MainManager.Instance.NodeQuantity;
+        MinimumClusterRequired = MainManager.Instance.MinimumClusterRequired;
+        MinimumCollisionStrength = MainManager.Instance.MinimumCollisionStrength;
+        MaximumNodeInCluster = MainManager.Instance.MaximumNodeInCluster;
+
         Instance = this;
+        ClustersCreatedCount = NodesQuantity;
         Nodes = new Node[NodesQuantity];
         HitCount = new int[NodesQuantity, NodesQuantity];
         for(int i = 0; i < NodesQuantity; i++)
@@ -34,7 +45,6 @@ public class NodeGenerator : MonoBehaviour
         HitCount[source, destination]++;
     }
 
-
     public int MaximumLikelyhoodNode(int source)
     {
         int max = -1; int pos = -1;
@@ -49,16 +59,17 @@ public class NodeGenerator : MonoBehaviour
         return pos;
     }
 
-
     public List<ClusterOfNode> GetClusters()
     {
+        if (ClustersCreatedCount <= MinimumClusterRequired) return ClustersCreated;
+
         int i, j;
         List<ClusterOfNode> Clusters = new List<ClusterOfNode>();
         int[,] HitCount = new int[NodesQuantity, NodesQuantity];
 
         for (i = 0; i < NodesQuantity; i++)
             for (j = 0; j < NodesQuantity; j++)
-                if (this.HitCount[i, j] > 5)
+                if (this.HitCount[i, j] > MinimumCollisionStrength)
                     HitCount[i, j] = this.HitCount[i, j];
 
         print(HitCount);
@@ -72,12 +83,25 @@ public class NodeGenerator : MonoBehaviour
 
         for (i = 0; i < NodesQuantity; i++)
         {
-            for (j = i + 1; j < NodesQuantity; j++)
+            while (true)
             {
-                if (HitCount[i, j] != 0 && Nodes[i].Cluster.Root != Nodes[j].Cluster.Root)
+                int Max = 0;
+                int Pos = -1;
+                for (j = 0; j < NodesQuantity; j++)
                 {
-                    //Merge Cluster
-                    ClusterOfNode a = Nodes[i].Cluster, b = Nodes[j].Cluster;
+                    if (j != i && HitCount[i, j] > Max)
+                    {
+                        Max = HitCount[i, j];
+                        Pos = j;
+                    }
+
+                }
+                if (Max == 0) break;
+                else HitCount[i, Pos] = 0;
+
+                if (Nodes[i].Cluster.Root != Nodes[Pos].Cluster.Root)
+                {
+                    ClusterOfNode a = Nodes[i].Cluster, b = Nodes[Pos].Cluster;
                     ClusterOfNode x, y;
                     if (a.Root < b.Root)
                     {
@@ -89,19 +113,34 @@ public class NodeGenerator : MonoBehaviour
                         x = b;
                         y = a;
                     }
-
+                    if (x.Nodes.Count + y.Nodes.Count > MaximumNodeInCluster) continue;
                     foreach (Node n in y.Nodes)
                     {
                         x.AddNode(n);
                     }
-                    if (Clusters.Remove(y)) {
+                    if (Clusters.Remove(y))
+                    {
                         //print($"Cluster {y.Root} is removed");
                     };
                 }
             }
+            
         }
         
         print($"No of Clusters formed is {Clusters.Count}");
+        ClustersCreatedCount = Clusters.Count;
+        ClustersCreated = Clusters;
+
+        for (i = 0; i < ClustersCreatedCount; i++)
+        {
+            foreach(Node n in ClustersCreated[i].Nodes)
+            {
+                if (i < StationManager.Instance.Colors.Length) 
+                    n.gameObject.GetComponent<Renderer>().material.color = StationManager.Instance.Colors[i];
+            }
+        }
+        if (ClustersCreatedCount<=MinimumClusterRequired)
+            StationManager.Instance.CreateStation(Clusters);
         return Clusters;
     }
 }

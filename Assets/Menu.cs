@@ -27,4 +27,11 @@ public class Menu : MonoBehaviour
         NodeGenerator.Instance.GetClusters();
         print(str);
     }
+
+    public void PauseUnpause()
+    {
+        if (MainManager.Instance.NodeSpeed == 0f)
+            MainManager.Instance.NodeSpeed = 0.5f;
+        else MainManager.Instance.NodeSpeed = 0f;
+    }
 }

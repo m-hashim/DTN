@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClusterOfNode : MonoBehaviour
+public class ClusterOfNode 
 {
     public List<Node> Nodes { get; private set; }
     public int Root { get; private set; } = -1;
@@ -20,7 +20,6 @@ public class ClusterOfNode : MonoBehaviour
     {
         Nodes.Add(n);
         n.Cluster = this;
-        //dilemma
     }
     
 
