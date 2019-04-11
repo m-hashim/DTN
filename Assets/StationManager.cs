@@ -14,11 +14,14 @@ public class StationManager : MonoBehaviour
         Instance = this;
     }
     
-    public void CreateStation(List<ClusterOfNode> clusters)
+
+    // station is positioned here
+    public void CreateStation(List<Cluster> clusters)
     {
         MainManager.Instance.NodeSpeed = 0.5f;
         for (int i=0;i < clusters.Count;i++)
         {
+            MainManager.Instance.IsStationSet = true;
             Vector3 Avg = new Vector3();
             foreach(Node n in clusters[i].Nodes)
             {

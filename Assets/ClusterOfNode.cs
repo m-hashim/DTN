@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClusterOfNode 
+public class Cluster 
 {
     public List<Node> Nodes { get; private set; }
     public int Root { get; private set; } = -1;
-    public ClusterOfNode() { }
+    public Cluster() { }
 
-    public ClusterOfNode(Node n)
+    public Cluster(Node n)
     {
         Nodes = new List<Node>();
         Nodes.Add(n);

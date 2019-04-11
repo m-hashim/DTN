@@ -437,7 +437,7 @@ GameObject:
   - component: {fileID: 693158869}
   - component: {fileID: 693158868}
   m_Layer: 0
-  m_Name: NodeGenerator
+  m_Name: NodeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 83249316}
+      - m_Target: {fileID: 1384205368}
         m_MethodName: PauseUnpause
         m_Mode: 1
         m_Arguments:
@@ -739,12 +739,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d75d2547766464899a84284c44827d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeSpeed: 3
+  NodeSpeed: 15
   NodeRange: 15
-  NodeQuantity: 50
+  NodeQuantity: 35
   MinimumCollisionStrength: 5
   MinimumClusterRequired: 5
-  MaximumNodeInCluster: 15
+  MaximumNodeInCluster: 9
   PlayGround: {fileID: 1177627053}
 --- !u!4 &1384205369
 Transform:

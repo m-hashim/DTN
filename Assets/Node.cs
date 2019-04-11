@@ -7,7 +7,7 @@ public class Node : MonoBehaviour
 {
     public Vector3 DestinationPosition;
     public string Name { get; set; }
-    public ClusterOfNode Cluster;
+    public Cluster Cluster;
 
     private float InstantiateRange ;
     public Vector3 InstantiatePosition;
@@ -34,7 +34,7 @@ public class Node : MonoBehaviour
         DestinationPosition = InstantiatePosition + new Vector3(Random.Range(-Range, Range), 0, Random.Range(-Range, Range));
     }
 
-    void Update()
+    public void Movement()
     {
         if (Rigidbody.position != DestinationPosition)
         {
@@ -50,7 +50,7 @@ public class Node : MonoBehaviour
     {
         if (other.GetComponent<Node>() != null)
         {
-            NodeGenerator.Instance.HitRegister(int.Parse(Name), int.Parse(other.GetComponent<Node>().Name));        
+            NodeManager.Instance.HitRegister(int.Parse(Name), int.Parse(other.GetComponent<Node>().Name));        
         }
     }
     

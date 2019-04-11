@@ -14,11 +14,34 @@ public class MainManager : MonoBehaviour
     public int MinimumClusterRequired = 5;
     public int MaximumNodeInCluster = 15;
 
+    public bool IsStationSet { get; set; }
+
     public GameObject PlayGround;
+
+    public List<Cluster> Clusters;
     void Start()
     {
+        Clusters = new List<Cluster>();
         Instance = this;
     }
 
-   
+    public void ClusteringDone(List<Cluster> Clusters)
+    {
+        print("Stations are creating");
+        this.Clusters = Clusters; 
+        StationManager.Instance.CreateStation(Clusters);
+      //  StopAndPlayBehaviour();
+    }
+    public void StopAndPlayBehaviour()
+    {
+        InvokeRepeating("PauseUnpause", 0f, 5f);
+    }
+
+    public void PauseUnpause()
+    {
+        if (NodeSpeed == 0f)
+            NodeSpeed = 0.5f;
+        else NodeSpeed = 0f;
+    }
+
 }

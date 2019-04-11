@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeGenerator : MonoBehaviour
+public class NodeManager : MonoBehaviour
 {
-    public static NodeGenerator Instance { private set; get; }
+    public static NodeManager Instance { private set; get; }
     private int NodesQuantity;
     private int MinimumClusterRequired;
     private int MinimumCollisionStrength;
@@ -16,7 +16,7 @@ public class NodeGenerator : MonoBehaviour
 
     // Start is called before the first frame update
     private int ClustersCreatedCount;
-    private List<ClusterOfNode> ClustersCreated;
+    private List<Cluster> ClustersCreated;
     void Start()
     {
         NodesQuantity = MainManager.Instance.NodeQuantity;
@@ -40,6 +40,13 @@ public class NodeGenerator : MonoBehaviour
         InvokeRepeating("GetClusters", 1f, 3f);
     }
     
+    void Update()
+    {
+        foreach(Node n in Nodes)
+        {
+            n.Movement();
+        }
+    }
     public void HitRegister(int source, int destination)
     {
         HitCount[source, destination]++;
@@ -59,12 +66,12 @@ public class NodeGenerator : MonoBehaviour
         return pos;
     }
 
-    public List<ClusterOfNode> GetClusters()
+    public List<Cluster> GetClusters()
     {
         if (ClustersCreatedCount <= MinimumClusterRequired) return ClustersCreated;
 
         int i, j;
-        List<ClusterOfNode> Clusters = new List<ClusterOfNode>();
+        List<Cluster> Clusters = new List<Cluster>();
         int[,] HitCount = new int[NodesQuantity, NodesQuantity];
 
         for (i = 0; i < NodesQuantity; i++)
@@ -76,7 +83,7 @@ public class NodeGenerator : MonoBehaviour
 
         for (i = 0; i < NodesQuantity; i++)
         {
-            var temp = new ClusterOfNode(Nodes[i]);
+            var temp = new Cluster(Nodes[i]);
             //print(temp.Root);
             Clusters.Add(temp);
         }
@@ -101,8 +108,8 @@ public class NodeGenerator : MonoBehaviour
 
                 if (Nodes[i].Cluster.Root != Nodes[Pos].Cluster.Root)
                 {
-                    ClusterOfNode a = Nodes[i].Cluster, b = Nodes[Pos].Cluster;
-                    ClusterOfNode x, y;
+                    Cluster a = Nodes[i].Cluster, b = Nodes[Pos].Cluster;
+                    Cluster x, y;
                     if (a.Root < b.Root)
                     {
                         x = a;
@@ -139,8 +146,9 @@ public class NodeGenerator : MonoBehaviour
                     n.gameObject.GetComponent<Renderer>().material.color = StationManager.Instance.Colors[i];
             }
         }
-        if (ClustersCreatedCount<=MinimumClusterRequired)
-            StationManager.Instance.CreateStation(Clusters);
+       
+        if (ClustersCreatedCount <= MinimumClusterRequired)
+            MainManager.Instance.ClusteringDone(Clusters);
         return Clusters;
     }
 }
