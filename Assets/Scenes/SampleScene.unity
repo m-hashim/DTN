@@ -744,8 +744,9 @@ MonoBehaviour:
   NodeQuantity: 35
   MinimumCollisionStrength: 5
   MinimumClusterRequired: 5
-  MaximumNodeInCluster: 9
+  MaximumNodeInCluster: 12
   PlayGround: {fileID: 1177627053}
+  Stations: []
 --- !u!4 &1384205369
 Transform:
   m_ObjectHideFlags: 0

@@ -18,14 +18,15 @@ public class MainManager : MonoBehaviour
 
     public GameObject PlayGround;
 
-    public List<Cluster> Clusters;
+    public List<Station> Clusters;
+    public List<GameObject> Stations;
     void Start()
     {
-        Clusters = new List<Cluster>();
+        Clusters = new List<Station>();
         Instance = this;
     }
 
-    public void ClusteringDone(List<Cluster> Clusters)
+    public void ClusteringDone(List<Station> Clusters)
     {
         print("Stations are creating");
         this.Clusters = Clusters; 

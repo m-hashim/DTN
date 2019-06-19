@@ -16,7 +16,7 @@ public class NodeManager : MonoBehaviour
 
     // Start is called before the first frame update
     private int ClustersCreatedCount;
-    private List<Cluster> ClustersCreated;
+    private List<Station> ClustersCreated;
     void Start()
     {
         NodesQuantity = MainManager.Instance.NodeQuantity;
@@ -44,9 +44,12 @@ public class NodeManager : MonoBehaviour
     {
         foreach(Node n in Nodes)
         {
+            // Every Node is moving from here.
             n.Movement();
         }
     }
+
+    //Individual Node use this function to update the HitCount value
     public void HitRegister(int source, int destination)
     {
         HitCount[source, destination]++;
@@ -66,12 +69,12 @@ public class NodeManager : MonoBehaviour
         return pos;
     }
 
-    public List<Cluster> GetClusters()
+    public List<Station> GetClusters()
     {
         if (ClustersCreatedCount <= MinimumClusterRequired) return ClustersCreated;
 
         int i, j;
-        List<Cluster> Clusters = new List<Cluster>();
+        List<Station> Clusters = new List<Station>();
         int[,] HitCount = new int[NodesQuantity, NodesQuantity];
 
         for (i = 0; i < NodesQuantity; i++)
@@ -83,7 +86,7 @@ public class NodeManager : MonoBehaviour
 
         for (i = 0; i < NodesQuantity; i++)
         {
-            var temp = new Cluster(Nodes[i]);
+            var temp = new Station(Nodes[i]);
             //print(temp.Root);
             Clusters.Add(temp);
         }
@@ -108,8 +111,8 @@ public class NodeManager : MonoBehaviour
 
                 if (Nodes[i].Cluster.Root != Nodes[Pos].Cluster.Root)
                 {
-                    Cluster a = Nodes[i].Cluster, b = Nodes[Pos].Cluster;
-                    Cluster x, y;
+                    Station a = Nodes[i].Cluster, b = Nodes[Pos].Cluster;
+                    Station x, y;
                     if (a.Root < b.Root)
                     {
                         x = a;

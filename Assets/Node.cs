@@ -7,7 +7,7 @@ public class Node : MonoBehaviour
 {
     public Vector3 DestinationPosition;
     public string Name { get; set; }
-    public Cluster Cluster;
+    public Station Cluster;
 
     private float InstantiateRange ;
     public Vector3 InstantiatePosition;
@@ -22,7 +22,7 @@ public class Node : MonoBehaviour
         InstantiateRange = MainManager.Instance.PlayGround.transform.localScale.x * 5 - Range;
         Rigidbody = this.gameObject.GetComponent<Rigidbody>();
         InstantiatePosition = new Vector3(Random.Range(-InstantiateRange, InstantiateRange), Rigidbody.position.y, Random.Range(-InstantiateRange, InstantiateRange));
-        print(InstantiatePosition);
+        //print(InstantiatePosition);
         Rigidbody.position = InstantiatePosition;
         NewDestination();
 
